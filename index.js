@@ -96,7 +96,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // MongoDB Connection
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@smart-deals.99va52p.mongodb.net/?appName=smart-deals`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@lumoracluster.y65imfg.mongodb.net/?appName=LumoraCluster`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -169,7 +169,7 @@ async function ensureConnection() {
         isConnected = true;
         console.log("Connected to MongoDB!");
 
-        const database = client.db("lumoraDB");
+        const database = client.db("LumoraDB");
         usersCollection = database.collection("users");
         servicesCollection = database.collection("services");
         bookingsCollection = database.collection("bookings");
@@ -1170,6 +1170,22 @@ app.delete(
   }
 );
 
+// ********************** Don't touch this section ******************************************
+// Health check
+// app.get("/health", (req, res) => {
+//   res.send({ status: "OK", timestamp: new Date() });
+// });
+
+// Root route
+// app.get("/", (req, res) => {
+//   res.send("Lumora Server is running");
+// });
+
+// CRITICAL: Export for Vercel serverless
+// export default app;
+
+// ************************************* TO THIS *******************************************
+
 // Health check
 app.get("/health", (req, res) => {
   res.send({ status: "OK", timestamp: new Date() });
@@ -1180,5 +1196,12 @@ app.get("/", (req, res) => {
   res.send("Lumora Server is running");
 });
 
-// CRITICAL: Export for Vercel serverless
+// Start server locally
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Lumora Server is running on port ${port}`);
+  });
+}
+
+// Export for Vercel serverless
 export default app;
