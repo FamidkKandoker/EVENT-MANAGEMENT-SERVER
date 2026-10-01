@@ -288,3 +288,5 @@ For issues and questions, please contact the development team.
 
 **Built with efforts for Lumora**
 
+#   E V E N T - M A N A G E M E N T - S E R V E R  
+ 
